@@ -1,0 +1,10 @@
+# needed backend
+service = DQMStore {}
+
+include "DQMServices/Components/test/dqm_onlineEnv.cfi"
+replace dqmSaver.fileName = "PhotonAnalyzer"
+replace dqmSaver.saveAtRunEnd = false
+replace dqmSaver.saveAtJobEnd = true
+  
+## actual producer
+include "DQMOffline/EGamma/data/photonAnalyzer.cfi"
