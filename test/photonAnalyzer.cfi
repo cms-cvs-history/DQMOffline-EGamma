@@ -14,6 +14,29 @@ module photonAnalysis = PhotonAnalyzer
    string photonCollection = ""
    string primaryVertexProducer = "offlinePrimaryVerticesFromCTFTracks"
 
+   double eMin= 0.
+   double eMax=100.
+   int32  eBin=100
+
+   double etMin=0.
+   double etMax=100.  
+   int32  etBin=100	
+
+   double etaMin=-2.5
+   double etaMax=2.5  
+   int32  etaBin=100	 
+
+   double phiMin=-3.14
+   double phiMax=3.14
+   int32  phiBin=100	 
+
+
+   double r9Min=0.
+   double r9Max=1.1  
+   int32  r9Bin=100	 
+
+
+
    bool OutputMEsInRootFile = true
    string OutputFileName="DQMPhotonHisto.root"
 
