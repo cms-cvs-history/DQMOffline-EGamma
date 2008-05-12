@@ -26,18 +26,20 @@ module photonAnalysis = PhotonAnalyzer
    InputTag trackProducer = "generalTracks"
    
 
-
+   double minPhoEtCut=5.
    double trkIsolExtR = 0.3
    double trkIsolInnR = 0.
-   double minEtCut = 50.
+   double minTrackPtCut = 1.5
    double lipCut =2.
-   double ecalIsolR = 0.3
+   double ecalIsolR = 0.35
+   double minBcEtCut= 0.
    double hcalIsolExtR = 0.3
    double hcalIsolInnR = 0.
+   double minHcalHitEtCut= 0.	
    int32 maxNumOfTracksInCone=3
    double trkPtSumCut = 9999.
-   double ecalEtSumCut = 9999.
-   double hcalEtSumCut = 9999.
+   double ecalEtSumCut = 5.
+   double hcalEtSumCut = 6.
 
 
    double eMin= 0.
