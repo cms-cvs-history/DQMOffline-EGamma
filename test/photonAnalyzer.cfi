@@ -12,7 +12,33 @@ module photonAnalysis = PhotonAnalyzer
 
    string phoProducer = "photons"
    string photonCollection = ""
+   string scBarrelProducer   =     "correctedHybridSuperClusters"	
+   string scEndcapProducer   =     "correctedEndcapSuperClustersWithPreshower"
+   InputTag barrelEcalHits = ecalRecHit:EcalRecHitsEB
+   InputTag endcapEcalHits = ecalRecHit:EcalRecHitsEE
+   string  bcProducer  =        "islandBasicClusters"
+   string  bcBarrelCollection = "islandBarrelBasicClusters"
+   string  bcEndcapCollection = "islandEndcapBasicClusters"
+   string hbheModule          = "hbhereco"
+   string hbheInstance        = ""
+
    string primaryVertexProducer = "offlinePrimaryVerticesFromCTFTracks"
+   InputTag trackProducer = "generalTracks"
+   
+
+
+   double trkIsolExtR = 0.3
+   double trkIsolInnR = 0.
+   double minEtCut = 50.
+   double lipCut =2.
+   double ecalIsolR = 0.3
+   double hcalIsolExtR = 0.3
+   double hcalIsolInnR = 0.
+   int32 maxNumOfTracksInCone=3
+   double trkPtSumCut = 9999.
+   double ecalEtSumCut = 9999.
+   double hcalEtSumCut = 9999.
+
 
    double eMin= 0.
    double eMax=100.
