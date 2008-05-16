@@ -1,0 +1,58 @@
+    module gsfElectronAnalysis= ElectronAnalyzer { 
+# DBE verbosity
+   untracked int32 Verbosity = 2   # 0 provides no output
+                                   # 1 provides basic output
+                                   # 2 provides output of the fill step + 1
+                                   # 3 provides output of the store step + 2
+
+
+	string outputFile = "gsfElectronHistos.root"         
+	InputTag electronCollection = pixelMatchGsfElectrons
+	InputTag matchingObjectCollection = mergedSuperClusters
+
+	// efficiency cuts
+	double MaxPt = 100.
+	double MaxAbsEta = 2.5
+	double DeltaR = 0.05
+	// histos limits and binning
+	double Etamin=-2.5
+	double Etamax=2.5
+	double Phimin=-3.2
+	double Phimax=3.2
+	double Ptmax=100.
+	double Pmax=300.
+	double Eopmax=5
+	double Eopmaxsht=3
+	double Detamin=-0.005
+	double Detamax=0.005
+	double Dphimin=-0.01
+	double Dphimax=0.01
+	double Detamatchmin=-0.05
+	double Detamatchmax=0.05
+	double Dphimatchmin=-0.2
+	double Dphimatchmax=0.2
+	double Fhitsmax=20.
+	double Lhitsmax=10.
+	int32 Nbineta=50
+	int32 Nbinp=50
+	int32 Nbinpt=50
+	int32 Nbinpteff=19
+	int32 Nbinphi=64
+	int32 Nbinp2D=50
+	int32 Nbinpt2D=50
+	int32 Nbineta2D=50
+	int32 Nbinphi2D=32
+	int32 Nbineop=50
+	int32 Nbineop2D=30
+	int32 Nbinfhits=20
+	int32 Nbinlhits=5
+	int32 Nbinxyz=50
+	int32 Nbindeta=100
+	int32 Nbindphi=100
+	int32 Nbindetamatch=100
+	int32 Nbindphimatch=100
+	int32 Nbindetamatch2D=50
+	int32 Nbindphimatch2D=50
+    }
+       
+
