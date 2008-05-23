@@ -28,7 +28,7 @@ module photonAnalysis = PhotonAnalyzer
 
    double minPhoEtCut=5.
    double trkIsolExtR = 0.3
-   double trkIsolInnR = 0.
+   double trkIsolInnR = 0.03
    double minTrackPtCut = 1.5
    double lipCut =2.
    double ecalIsolR = 0.35
@@ -63,6 +63,9 @@ module photonAnalysis = PhotonAnalyzer
    double r9Max=1.1  
    int32  r9Bin=100	 
 
+   double dPhiTracksMin=-0.5
+   double dPhiTracksMax=0.5
+   int32  dPhiTracksBin=100
 
 
    bool OutputMEsInRootFile = true
