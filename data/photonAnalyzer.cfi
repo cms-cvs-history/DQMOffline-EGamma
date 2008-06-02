@@ -67,6 +67,10 @@ module photonAnalysis = PhotonAnalyzer
    double dPhiTracksMax=0.5
    int32  dPhiTracksBin=100
 
+   double dEtaTracksMin=-0.2
+   double dEtaTracksMax=0.2
+   int32  dEtaTracksBin=100
+
 
    bool OutputMEsInRootFile = true
    string OutputFileName="DQMPhotonHisto.root"
