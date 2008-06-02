@@ -13,16 +13,19 @@ module photonAnalysis = PhotonAnalyzer
    string phoProducer = "photons"
    string photonCollection = ""
    string scBarrelProducer   =     "correctedHybridSuperClusters"	
-   string scEndcapProducer   =     "correctedEndcapSuperClustersWithPreshower"
+   string scEndcapProducer   =     "correctedMulti5x5SuperClustersWithPreshower"
    InputTag barrelEcalHits = ecalRecHit:EcalRecHitsEB
    InputTag endcapEcalHits = ecalRecHit:EcalRecHitsEE
-   string  bcProducer  =        "islandBasicClusters"
-   string  bcBarrelCollection = "islandBarrelBasicClusters"
-   string  bcEndcapCollection = "islandEndcapBasicClusters"
+
+   InputTag bcBarrelCollection = hybridSuperClusters:hybridBarrelBasicClusters
+   InputTag bcEndcapCollection  = multi5x5BasicClusters:multi5x5EndcapBasicClusters
+
+  # string  bcProducer  =        "islandBasicClusters"
+  # string  bcBarrelCollection = "islandBarrelBasicClusters"
+  # string  bcEndcapCollection = "islandEndcapBasicClusters"
    string hbheModule          = "hbhereco"
    string hbheInstance        = ""
 
-   string primaryVertexProducer = "offlinePrimaryVerticesFromCTFTracks"
    InputTag trackProducer = "generalTracks"
    
 
