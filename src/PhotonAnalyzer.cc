@@ -47,8 +47,8 @@ PhotonAnalyzer::PhotonAnalyzer( const edm::ParameterSet& pset )
     photonCollectionProducer_ = pset.getParameter<std::string>("phoProducer");
     photonCollection_ = pset.getParameter<std::string>("photonCollection");
 
-    scBarrelProducer_       = pset.getParameter<std::string>("scBarrelProducer");
-    scEndcapProducer_       = pset.getParameter<std::string>("scEndcapProducer");
+    scBarrelProducer_       = pset.getParameter<edm::InputTag>("scBarrelProducer");
+    scEndcapProducer_       = pset.getParameter<edm::InputTag>("scEndcapProducer");
     barrelEcalHits_   = pset.getParameter<edm::InputTag>("barrelEcalHits");
     endcapEcalHits_   = pset.getParameter<edm::InputTag>("endcapEcalHits");
 
@@ -413,7 +413,17 @@ void PhotonAnalyzer::analyze( const edm::Event& e, const edm::EventSetup& esup )
   // Get the tracks
   edm::Handle<reco::TrackCollection> tracksHandle;
   e.getByLabel(tracksInputTag_,tracksHandle);
-  const reco::TrackCollection* trackCollection = tracksHandle.product();
+  const reco::TrackCollection* trackCollection = 0;
+  bool noTracks=false;
+  if(tracksHandle.isValid()) {
+     trackCollection = tracksHandle.product();
+     noTracks = false;
+  }
+  else {
+     edm::LogError("PhotonProducer") << "Error! Can't get the product " << tracksInputTag_.label()
+				     << ", continue anyway. There will be no track isolation ";
+     noTracks = true;
+  }
 
   std::vector<int> nPho(2);
   std::vector<int> nPhoBarrel(2);
@@ -431,8 +441,8 @@ void PhotonAnalyzer::analyze( const edm::Event& e, const edm::EventSetup& esup )
     int detector=0;
     bool  phoIsInBarrel=false;
     bool  phoIsInEndcap=false;
-    float etaPho=(*iPho).phi();
-    float phiPho=(*iPho).eta();
+    float etaPho=(*iPho).eta();
+    float phiPho=(*iPho).phi();
     if ( fabs(etaPho) <  1.479 ) {
       phoIsInBarrel=true;
     } else {
@@ -455,10 +465,11 @@ void PhotonAnalyzer::analyze( const edm::Event& e, const edm::EventSetup& esup )
     double ecalSum=0.;
     double hcalSum=0.;
     /// isolation in the tracker
-    PhotonTkIsolation trackerIsol(trkIsolExtRadius_, trkIsolInnRadius_, trkPtLow_, lip_, trackCollection);     
-    nTracks = trackerIsol.getNumberTracks(&(*iPho));
-    ptSum = trackerIsol.getPtTracks(&(*iPho));
-
+    if(!noTracks) {
+       PhotonTkIsolation trackerIsol(trkIsolExtRadius_, trkIsolInnRadius_, trkPtLow_, lip_, trackCollection); 
+       nTracks = trackerIsol.getNumberTracks(&(*iPho));
+       ptSum = trackerIsol.getPtTracks(&(*iPho));
+    }
 
     /// isolation in Ecal
     edm::Handle<reco::BasicClusterCollection> bcHandle;
@@ -508,13 +519,20 @@ void PhotonAnalyzer::analyze( const edm::Event& e, const edm::EventSetup& esup )
 
     bool isIsolated=false;
 
-    if ( (nTracks < numOfTracksInCone_) && 
-	 ( ptSum < trkPtSumCut_) &&
-	 ( ecalSum < ecalEtSumCut_ ) &&
-	 ( hcalSum < hcalEtSumCut_ ) ) isIsolated = true;
+    if(!noTracks) {
+       if ( (nTracks < numOfTracksInCone_) && 
+	     ( ptSum < trkPtSumCut_) &&
+	     ( ecalSum < ecalEtSumCut_ ) &&
+	     ( hcalSum < hcalEtSumCut_ ) ) isIsolated = true;
 
-    p_nTrackIsol_->Fill( (*iPho).superCluster()->eta(), float(nTracks));
-    p_trackPtSum_->Fill((*iPho).superCluster()->eta(), ptSum);
+       p_nTrackIsol_->Fill( (*iPho).superCluster()->eta(), float(nTracks));
+       p_trackPtSum_->Fill((*iPho).superCluster()->eta(), ptSum);
+    }
+    else {
+       if (  ( ecalSum < ecalEtSumCut_ ) &&
+	     ( hcalSum < hcalEtSumCut_ ) ) isIsolated = true;
+    }
+
     p_ecalSum_->Fill((*iPho).superCluster()->eta(), ecalSum);
     p_hcalSum_->Fill((*iPho).superCluster()->eta(), hcalSum);
 
@@ -581,9 +599,9 @@ void PhotonAnalyzer::analyze( const edm::Event& e, const edm::EventSetup& esup )
       h_r9VsNofTracks_[type][0]->Fill( (*iPho).r9(), conversions[iConv]->nTracks() ) ; 
       if ( phoIsInBarrel ) h_r9VsNofTracks_[type][1]->Fill( (*iPho).r9(), conversions[iConv]->nTracks() ) ; 
       if ( phoIsInEndcap ) h_r9VsNofTracks_[type][2]->Fill( (*iPho).r9(), conversions[iConv]->nTracks() ) ; 
-
+      
       if ( conversions[iConv]->nTracks() <2 ) continue; 
-
+      
 
       h_convEta_[type]->Fill( conversions[iConv]->superCluster()->eta() );
       h_convPhi_[type]->Fill( conversions[iConv]->superCluster()->phi() );
