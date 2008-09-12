@@ -31,7 +31,7 @@
 	double Detamatchmax=0.05
 	double Dphimatchmin=-0.2
 	double Dphimatchmax=0.2
-	double Fhitsmax=20.
+	double Fhitsmax=30.
 	double Lhitsmax=10.
 	int32 Nbineta=50
 	int32 Nbinp=50
@@ -44,7 +44,7 @@
 	int32 Nbinphi2D=32
 	int32 Nbineop=50
 	int32 Nbineop2D=30
-	int32 Nbinfhits=20
+	int32 Nbinfhits=30
 	int32 Nbinlhits=5
 	int32 Nbinxyz=50
 	int32 Nbindeta=100
