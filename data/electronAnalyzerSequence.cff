@@ -1,9 +1,0 @@
-include "DQMOffline/EGamma/data/electronAnalyzer.cff"
-   module mergedSuperClusters = SuperClusterMerger {
-       VInputTag src = { correctedHybridSuperClusters,correctedMulti5x5SuperClustersWithPreshower }  # for 21x
-   }
-       
-sequence electronAnalyzerSequence = {
-                                        mergedSuperClusters,
-                                        gsfElectronAnalysis
-                                    }
