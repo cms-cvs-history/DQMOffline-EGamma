@@ -1,6 +1,6 @@
 #include <queue>
 
-cmsListDir( const TObjString * firstdirname, const TDirectory * firstDir )
+eleListDir( const TObjString * firstdirname, const TDirectory * firstDir )
  {
   TObjArray * dirs = new TObjArray ;
   dirs->AddLast(new TPair(firstdirname,firstDir)) ;
@@ -40,7 +40,7 @@ cmsListDir( const TObjString * firstdirname, const TDirectory * firstDir )
    }
  }
 
-cmsListHistos()
+eleListHistos()
  {
   TString input_file_name = gSystem->Getenv("TEST_HISTOS_FILE") ;
   TString internal_path("DQMData") ;
@@ -52,12 +52,12 @@ cmsListHistos()
     if (input_file->cd(internal_path)!=kTRUE)
      {
       std::cerr<<"Failed move to: "<<internal_path<<std::endl ;
-      cmsListDir("",gDirectory) ;
+      eleListDir("",gDirectory) ;
      }
     else
      {
       std::cout<<"cd "<<internal_path<<std::endl ;
-      cmsListDir(new TObjString(internal_path),gDirectory) ;
+      eleListDir(new TObjString(internal_path),gDirectory) ;
      }
    }
   else
