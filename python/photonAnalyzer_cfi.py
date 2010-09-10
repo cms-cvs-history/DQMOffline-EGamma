@@ -36,8 +36,8 @@ photonAnalysis = cms.EDAnalyzer("PhotonAnalyzer",
                                 # 3 provides output of the store step + 2
                                 
     isolationStrength = cms.int32(0),
-                                # 0 => Loose Photon
-                                # 1 => Tight Photon
+                                # 0 => Loose Photon = GoodCandidate
+                                # 1 => Tight Photon = GoodCandidate
 
 
 
@@ -83,13 +83,13 @@ photonAnalysis = cms.EDAnalyzer("PhotonAnalyzer",
     yMin = cms.double(-80),                               
     yMax = cms.double(80),
                                 
-    rBin = cms.int32(170),
-    rMin = cms.double(-5),                               
+    rBin = cms.int32(400),
+    rMin = cms.double(0),                               
     rMax = cms.double(80),                                
 
     zBin = cms.int32(100),
     zMin = cms.double(0),                               
-    zMax = cms.double(280),
+    zMax = cms.double(180),
 
     dEtaTracksBin = cms.int32(100),
     dEtaTracksMin = cms.double(-0.2),
@@ -99,17 +99,21 @@ photonAnalysis = cms.EDAnalyzer("PhotonAnalyzer",
     dPhiTracksMin = cms.double(-0.5),
     dPhiTracksMax = cms.double(0.5),
 
-    
     sigmaIetaBin = cms.int32(200),
     sigmaIetaMin = cms.double(0.0),
     sigmaIetaMax = cms.double(0.05),
 
     eOverPBin = cms.int32(100),
     eOverPMin = cms.double(0.0),
-    eOverPMax = cms.double(5.0),                                
+    eOverPMax = cms.double(5.0),
+
+    chi2Bin = cms.int32(100),
+    chi2Min = cms.double(0.0),
+    chi2Max = cms.double(20.0),                                
+                                
 
                                 
-    OutputFileName = cms.string('DQMOfflinePhotons.root'),
+    OutputFileName = cms.string('DQMOfflinePhotonsAfterFirstStep.root'),
 
 
 )
