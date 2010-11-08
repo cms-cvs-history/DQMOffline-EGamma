@@ -13,7 +13,7 @@
  **  
  **
  **  $Id: PhotonAnalyzer
- **  $Date: 2010/05/13 22:59:51 $ 
+ **  $Date: 2010/09/28 09:40:19 $ 
  **  authors: 
  **   Nancy Marinelli, U. of Notre Dame, US  
  **   Jamie Antonelli, U. of Notre Dame, US
@@ -61,6 +61,8 @@ PhotonAnalyzer::PhotonAnalyzer( const edm::ParameterSet& pset )
 
     isolationStrength_  = pset.getParameter<int>("isolationStrength");
 
+
+    isHeavyIon_          = pset.getUntrackedParameter<bool>("isHeavyIon",false);
 
     parameters_ = pset;
    
@@ -707,7 +709,7 @@ void PhotonAnalyzer::analyze( const edm::Event& e, const edm::EventSetup& esup )
   if (nEvt_% prescaleFactor_ ) return; 
   nEvt_++;  
   LogInfo("PhotonAnalyzer") << "PhotonAnalyzer Analyzing event number: " << e.id() << " Global Counter " << nEvt_ <<"\n";
- 
+
   // Get the trigger results
   bool validTriggerEvent=true;
   edm::Handle<trigger::TriggerEvent> triggerEventHandle;
@@ -862,16 +864,20 @@ void PhotonAnalyzer::analyze( const edm::Event& e, const edm::EventSetup& esup )
       if(useTriggerFiltering_) continue;  //throw away photons that haven't passed any photon filters
     }
 
-    
+
     if ((*iPho).et()  < minPhoEtCut_) continue;
-    
+
     nEntry_++;
-       
+
     edm::Ref<reco::PhotonCollection> photonref(photonHandle, photonCounter);
     photonCounter++;
-    bool  isLoosePhoton = (loosePhotonID)[photonref];
-    bool  isTightPhoton = (tightPhotonID)[photonref];
-
+    
+    bool isLoosePhoton(false), isTightPhoton(false);
+    if ( !isHeavyIon_ ) {
+       isLoosePhoton = (loosePhotonID)[photonref];
+       isTightPhoton = (tightPhotonID)[photonref];
+    }
+    
 
     //find which part of the Ecal contains the photon
 
@@ -1138,6 +1144,7 @@ void PhotonAnalyzer::analyze( const edm::Event& e, const edm::EventSetup& esup )
  
 	//loop over conversions
 
+
 	reco::ConversionRefVector conversions = (*iPho).conversions();
 
 	for (unsigned int iConv=0; iConv<conversions.size(); iConv++) {
@@ -1259,10 +1266,13 @@ void PhotonAnalyzer::analyze( const edm::Event& e, const edm::EventSetup& esup )
       for (reco::PhotonCollection::const_iterator iPho2=iPho+1; iPho2!=photonCollection.end(); iPho2++){
 	
 	edm::Ref<reco::PhotonCollection> photonref2(photonHandle, photonCounter); //note: correct to use photonCounter and not photonCounter+1 
-	bool  isTightPhoton2 = (tightPhotonID)[photonref2];                      //since it has already been incremented earlier
-	bool  isLoosePhoton2 = (loosePhotonID)[photonref2];
+	bool  isTightPhoton2(false), isLoosePhoton2(false);
 	
-	bool isIsolated2=false;
+	if ( !isHeavyIon_ ) {
+	   isTightPhoton2 = (tightPhotonID)[photonref2];                      //since it has already been incremented earlier                                                                                                                 
+	   isLoosePhoton2 = (loosePhotonID)[photonref2];
+	}
+	   bool isIsolated2=false;
 	if ( isolationStrength_ == 0)  isIsolated2 = isLoosePhoton2;
 	if ( isolationStrength_ == 1)  isIsolated2 = isTightPhoton2; 
 

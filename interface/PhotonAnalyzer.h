@@ -85,7 +85,7 @@
  **  
  **
  **  $Id: PhotonAnalyzer
- **  $Date: 2010/01/12 13:50:25 $ 
+ **  $Date: 2010/05/10 19:25:45 $ 
  **  authors: 
  **   Nancy Marinelli, U. of Notre Dame, US  
  **   Jamie Antonelli, U. of Notre Dame, US
@@ -164,6 +164,8 @@ class PhotonAnalyzer : public edm::EDAnalyzer
   
 
   int isolationStrength_; 
+
+  bool isHeavyIon_;
 
 
   edm::ParameterSet parameters_;
